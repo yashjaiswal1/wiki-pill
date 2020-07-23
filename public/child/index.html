@@ -8,22 +8,117 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 95%;
+        width: 74%;
+        float: left;
+        border: 15px;
       }
       /* Optional: Makes the sample page fill the window. */
       html,
       body {
         height: 100%;
-        margin: 10px;
+        margin: 10px 0px 10px 10px;
         padding: 0;
       }
+      #toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 10%;
+  left:7%;  
+}
     </style>
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified Materialize CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
   </head>
   <body>
-    <button onclick="changeMarkerPosition(marker, map, poly, track)">
-      Change Coordinates
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <div class="hoverable" id="map"></div>
+    <!-- &NonBreakingSpace;&NonBreakingSpace;<button
+      class="btn-floating btn-large waves-effect waves-light red hoverable"
+      onclick="changeMarkerPosition(marker, map, poly, track)"
+    >
+      <i class="material-icons">
+        autorenew
+      </i>
+    </button> -->
+    
+    <div class="row">
+      <div class="col s3">
+        <div class="card hoverable">
+          <div class="card-content">
+            <span class="card-title"><b>Control Panel</b></span>
+              <ul style="float: left;">
+                <li>- See History Log</li>
+                <li>- Set Schedule</li>
+                <li>- Share live location</li>
+              </ul>
+              <button
+      class="btn-floating btn-large waves-effect waves-light red hoverable"
+      onclick="changeMarkerPosition(marker, map, poly, track)" style="float: right;"
+    >
+      <!-- <i class="material-icons">
+        autorenew
+      </i> -->
+      <i class="material-icons">location_on</i>
     </button>
-    <div id="map"></div>
+          </div>
+          <div class="card-tabs">
+            <ul class="tabs">
+              <li class="tab"><a href="#test4">History</a></li>
+              <li class="tab"><a class="active" href="#test5">Schedule</a></li>
+              <li class="tab"><a href="#test6">Share</a></li>
+            </ul>
+          </div>
+        <div class="card-content grey lighten-4">
+          <div id="test4"><table>
+            <tbody>
+              <tr id="tr1">
+                <!-- <td>Region 1</td>
+                <td></td>
+                <td>$0.87</td> -->
+              </tr>
+              <tr id="tr2">
+                <!-- <td>Alan</td>
+                <td>Jellybean</td>
+                <td>$3.76</td> -->
+              </tr>
+              <tr id="tr3">
+                <!-- <td>Jonathan</td>
+                <td>Lollipop</td>
+                <td>$7.00</td> -->
+              </tr>
+              <tr id="tr4">
+                <!-- <th>Place</th>
+                <th>Time</th>
+                <th>Arrival/Departure</th> -->
+              </tr>
+            </tbody>
+          </table></div>
+          <div id="test5">
+             <input type="text" class="timepicker" placeholder="Start Time">
+             <input type="text" class="timepicker" placeholder="End Time">
+          </div>
+          <div id="test6">Test 3</div>
+          
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        $('.tabs').tabs();
+      });
+      $(document).ready(function(){
+    $('.timepicker').timepicker();
+  });
+    </script>
     <script>
       // Map with a marker
       /*var map;
@@ -51,6 +146,11 @@
         coordinates,
         track,
         counter = 0;
+      var flag = 0;
+      var queue = [];
+      var temp;
+      var i = -1;
+      var j = 0, k, l = 1;
       var firebaseRef = firebase.database().ref();
       var notifRef = firebase.database().ref().child("Notifications");
       // status --> false, when outside geofenced area
@@ -109,7 +209,7 @@
         //           // Browser doesn't support Geolocation
         //           handleLocationError(false, infoWindow, map.getCenter());
         //         }
-
+        
         var drawingManager = new google.maps.drawing.DrawingManager({
           drawingMode: google.maps.drawing.OverlayType.MARKER,
           drawingControl: true,
@@ -123,8 +223,8 @@
           drawingManager,
           "overlaycomplete",
           function (polygon) {
+            console.log("OLA");
             var coordinatesArray = polygon.overlay.getPath().getArray();
-
             poly = new google.maps.Polygon({
               paths: [
                 new google.maps.LatLng(
@@ -145,23 +245,27 @@
                 ),
               ],
             });
-
+            i += 1;
+            queue[i] = poly;
+            
+            poly = queue[j];
             var firebaseRef = firebase.database().ref();
             var notifRef = firebase.database().ref().child("Notifications");
-            console.log("Check: " + checkIfInside(poly, markerLocation));
+            // console.log("Initial Check: " + checkIfInside(poly, markerLocation));
             status = checkIfInside(poly, markerLocation);
-            console.log(typeof status);
             //when polygon is completed, below code block is executed
             if (status == "true") {
               // functions when point is inside polygon
-              console.log("inside");
-
+              console.log("inside region 1");
+              flag = 1;
               notifRef.set(0);
-            } else {
+            } if(status == "false" && flag) {
               // functions when point is outside polygon
-              console.log("outside");
-
+              console.log("outside region 1");
+              j += 1;
+              poly = queue[j];
               notifRef.set(1);
+              flag = 0;
             }
 
             // var c = google.maps.geometry.poly.containsLocation(markerLocation, poly);
@@ -184,78 +288,146 @@
         if (counter == 0) {
           var latlng = new google.maps.LatLng(13.117225, 77.633982);
           marker.setPosition(latlng);
-          console.log(
-            checkIfInside(poly, new google.maps.LatLng(13.117225, 77.633982))
-          );
+          // console.log(
+          //   checkIfInside(poly, new google.maps.LatLng(13.117225, 77.633982))
+          // );
+
           status = checkIfInside(
             poly,
             new google.maps.LatLng(13.117225, 77.633982)
           );
           var path = track.getPath();
           path.push(new google.maps.LatLng(13.117225, 77.633982));
-          console.log(path);
+          // console.log(path);
           counter += 1;
-          console.log("Status value = " + status);
-          console.log(typeof status);
+          // console.log("Status value = " + status);
+          // console.log(typeof status);
           if (status == "true") {
             // functions when point is inside polygon
-            console.log("inside");
-
+            console.log("Working 1");
+            k = j+1;
+            console.log("inside region " + k + " LOLZZZ");
+            M.toast({html: 'Inside Region ' + k, classes: 'rounded green'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Entered region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
             notifRef.set(0);
-          } else {
-            // functions when point is outside polygon
-            console.log("outside");
-
+            flag = 1;
+          } if(flag && status == "false") {
+            // functions when point is outside polygon 1
+            k = j+1;
+            console.log("outside region " + k);
+            M.toast({html: 'Outside Region ' + k, classes: 'rounded red'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Departed from region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
+            j += 1;
+            poly = queue[j];
             notifRef.set(1);
+            flag = 0;
+            
           }
         }
         //3rd button press
         else if (counter == 1) {
+          console.log("TEST");
           var latlng = new google.maps.LatLng(13.117646, 77.633977);
           marker.setPosition(latlng);
-          console.log(
-            checkIfInside(poly, new google.maps.LatLng(13.117646, 77.633977))
-          );
+          // console.log(
+          //   checkIfInside(poly, new google.maps.LatLng(13.117646, 77.633977))
+          // );
+          if(queue.length > 1){
           status = checkIfInside(
-            poly,
+            queue[j],   //for > 1 geofence, this will work
             new google.maps.LatLng(13.117646, 77.633977)
           );
+          }
+          if(queue.length == 1){
+          status = checkIfInside(
+            queue[0],   //for 1 geofence, this will work
+            new google.maps.LatLng(13.117646, 77.633977)
+          );
+          }
           var path = track.getPath();
           path.push(new google.maps.LatLng(13.117646, 77.633977));
-          console.log(path);
+          // console.log(path);
           counter += 1;
+          console.log("TEST");    
           if (status == "true") {
             // functions when point is inside polygon
-            console.log("inside");
+            k = j+1;
+            console.log("inside region " + k);
+            M.toast({html: 'Inside Region ' + k, classes: 'rounded green'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Entered region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
             notifRef.set(0);
-          } else {
+            flag = 1;
+          } if(flag && status == "false") {
             // functions when point is outside polygon
-            console.log("outside");
+            k = j+1;
+            console.log("outside region " + k);
+            M.toast({html: 'Outside Region ' + k, classes: 'rounded red'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Departed from region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
+            j += 1;
+            poly = queue[j];
             notifRef.set(1);
+            flag = 0;
           }
           //4th button press
         } else if (counter == 2) {
           var latlng = new google.maps.LatLng(13.11778, 77.63311);
           marker.setPosition(latlng);
-          console.log(
-            checkIfInside(poly, new google.maps.LatLng(13.11778, 77.63311))
-          );
+          // console.log(
+          //   checkIfInside(queue[j], new google.maps.LatLng(13.11778, 77.63311))
+          // );
+          // console.log(queue[j]);
+          if(queue.length > 1){
           status = checkIfInside(
-            poly,
+            queue[j],
             new google.maps.LatLng(13.11778, 77.63311)
           );
+          }
+          if(queue.length == 1){
+          status = checkIfInside(
+            queue[0],
+            new google.maps.LatLng(13.11778, 77.63311)
+          );
+          }
           var path = track.getPath();
           path.push(new google.maps.LatLng(13.11778, 77.63311));
-          console.log(path);
+          // console.log(path);
           counter += 1;
           if (status == "true") {
             // functions when point is inside polygon
-            console.log("inside");
+            k = j+1;
+            console.log("inside region " + k);
+            M.toast({html: 'Inside Region ' + k, classes: 'rounded green'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Entered region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
             notifRef.set(0);
-          } else {
+            flag = 1;
+          } if(flag && status == "false"){
             // functions when point is outside polygon
-            console.log("outside");
+            k = j+1;
+            console.log("outside region " + k);
+            M.toast({html: 'Outside Region ' + k, classes: 'rounded red'});
+            temp = document.createElement("TD");
+            temp.innerHTML = "Departed from region " + k + " at " + new Date();
+            document.getElementById("tr" + l).appendChild(temp);
+            l += 1;
+            j += 1;
+            poly = queue[j]
             notifRef.set(1);
+            flag = 0;
           }
         }
         //   track.setPath(path);
@@ -276,6 +448,9 @@
       async
       defer
     ></script>
+    
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- Firebase -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/__/firebase/7.9.1/firebase-app.js"></script>
