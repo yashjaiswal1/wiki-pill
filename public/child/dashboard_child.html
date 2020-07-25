@@ -148,11 +148,13 @@
             </a>
           </li>
         </ul>
-        <!-- Divider -->
+        <!-- Divider 
         <hr class="my-3" />
-        <!-- Heading -->
+
+         Heading 
         <h6 class="navbar-heading text-muted">Options</h6>
-        <!-- Navigation -->
+
+         Navigation 
         <ul class="navbar-nav mb-md-3">
           <li class="nav-item">
             <a class="nav-link" href="#">
@@ -169,7 +171,7 @@
               <i class="ni ni-check-bold"></i> Feedback
             </a>
           </li>
-        </ul>
+        </ul>-->
       </div>
     </div>
   </nav>
@@ -180,8 +182,8 @@
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
         <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/">Dashboard</a>
-        <!-- Form -->
+        <a class="h2 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/">Dashboard</a>
+        <!-- Form 
         <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
             <div class="input-group input-group-alternative">
@@ -191,7 +193,8 @@
               <input class="form-control" placeholder="Search" type="text" />
             </div>
           </div>
-        </form>
+        </form>-->
+
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
@@ -202,7 +205,7 @@
                   <img alt="Image placeholder" src="../img/theme/team-4-800x800.jpg" />
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm font-weight-bold">Guardian</span>
+                  <span class="mb-0 text-l font-weight-bold">Guardian</span>
                 </div>
               </div>
             </a>
@@ -210,10 +213,10 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
-              <a href="./profile_child.html" class="dropdown-item">
+              <!--<a href="#" class="dropdown-item">
                 <i class="ni ni-single-02"></i>
                 <span>My profile</span>
-              </a>
+              </a>-->
               <a href="#" class="dropdown-item">
                 <i class="ni ni-settings-gear-65"></i>
                 <span>Settings</span>
@@ -255,7 +258,7 @@
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                        <!-- <i class="fas fa-chart-bar"></i> -->
+                         <i class="fas fa-user"></i> 
                       </div>
                     </div>
                   </div>
@@ -277,7 +280,7 @@
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                        <!-- <i class="fas fa-chart-pie"></i> -->
+                        <i class="fas fa-user"></i> 
                       </div>
                     </div>
                   </div>
@@ -346,7 +349,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <img align="right" src="../img/icons/question-blue.png" data-toggle="tooltip" data-placement="top"
-                    title="Graph representing total performance in the Present Year Vs the Previous Year ">
+                    title="Graph to visualize the health of the patient on daily basis">
                   <h6 class="text-uppercase text-light ls-1 mb-1">
                     OVERVIEW
                   </h6>
@@ -383,13 +386,14 @@ var chart = new Chart(ctx, {
         datasets: [{
                 label: 'Health Status',
                 borderColor: '#f5365c',
+                fontColor: 'white',
                 data: [1, 1, 1, 2, 1, 1, 2]
-            },
-            {
+            }
+            /*{
                 label: 'General Trend',
                 borderColor: '#11cdef',
                 data: [1, 1, 2, 2, 3, 3, 3]
-            }
+            }*/
         ]
     },
 
@@ -521,18 +525,24 @@ var chart = new Chart(ctx, {
                 display: true,
                 scaleLabel: {
                     display: true,
+                    fontColor: 'white',
                     labelString: 'Per Day'
+                },
+                ticks: {
+                  fontColor: 'white'
                 }
             }],
             yAxes: [{
                 display: true,
                 scaleLabel: {
                     display: true,
+                    fontColor: 'white',
                     labelString: 'Health Status'
                 },
                 ticks: {
                     min: 0,
                     max: 3,
+                    fontColor: "white",
                     stepSize: 1,
                     suggestedMin: 0.5,
                     suggestedMax: 5.5,
@@ -725,7 +735,7 @@ var chart = new Chart(ctx, {
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Patient Case History</h3>
+                  <h2 class="mb-0">Patient Case History</h2>
                 </div>
                 <div class="col text-right">
                   
@@ -735,12 +745,12 @@ var chart = new Chart(ctx, {
             <div class="table-responsive">
               <!-- Projects table -->
               <table class="table align-items-center table-flush">
-                <thead class="thead-light">
+                <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Timeline</th>
-                    <th scope="col">Disease</th>
-                    <th scope="col">Medicinal Course</th>
-                    <th scope="col">Status</th>
+                    <th scope="col" style="color: white;">Timeline</th>
+                    <th scope="col" style="color: white;">Disease</th>
+                    <th scope="col" style="color: white;">Medicinal Course</th>
+                    <th scope="col" style="color: white;">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -896,10 +906,10 @@ var chart = new Chart(ctx, {
         <div class="col-xl-6">
           <div class="copyright text-center text-xl-left text-muted">
             &nbsp; An integrated platform for
-            <a href="#" class="font-weight-bold ml-1" target="_blank">Inspark Project Expo 2020</a>
+            <a href="https://aws.amazon.com/" class="font-weight-bold ml-1" target="_blank">Amazon Web Services</a>
           </div>
         </div>
-        <div class="col-xl-6">
+        <!--<div class="col-xl-6">
           <ul class="nav nav-footer justify-content-center justify-content-xl-end">
             <li class="nav-item">
               <a href="#" class="nav-link" target="_blank">Branch
@@ -913,7 +923,7 @@ var chart = new Chart(ctx, {
               <a href="#" class="nav-link" target="_blank">Feedback</a>
             </li>
           </ul>
-        </div>
+        </div>-->
       </div>
     </footer>
 
