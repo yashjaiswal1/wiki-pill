@@ -37,6 +37,49 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <script
+      SameSite="None"
+      Secure
+      src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"
+    ></script>
+
+    <script>
+      AWS.config.update({
+        region: "us-east-1",
+        // endpoint: "https://test-c2078.web.app/",
+        // accessKeyId default can be used while using the downloadable version of DynamoDB.
+        // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+        accessKeyId: "ASIA6DVYEHHHOUU5HF6R",
+        // secretAccessKey default can be used while using the downloadable version of DynamoDB.
+        // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+        secretAccessKey: "Y98xxVGk28LmbGLN2c5Oq2uRarIEMroMV8Q5anud",
+        sessionToken:
+          "FwoGZXIvYXdzEHEaDMTNV40sAG4VH6IQ8CLHAQK12SNErQuyXAKn+UUuSe85xXNW6nIgxkzsMcsRhvuLBYJsl6i1ecTQBXxupze/RbAPeuSGtTy/h+MmVwMCXLAiIcARdGzOqJ5TAceQJv4jEJ7J57Z0ge7TjGrSZrzx9VF6DuA0DKBq8OXy7r+wVaS/jMeFd4uDhREfE06GVjHEUpz2flZx1oLg1P4VI0Koi5RGaBV2QfwqwX8UOvMsZesw5Wvn43jIPp2PZX+yaGyOm7C/YYzHo+7C62w2hGEbAv1Yzw/zM7kou/uJ+QUyLb8Rsz+4ACrFiixrFExhl0mslOkJktYaMbf/Ldo1g2+cYN7F3u8c4+DmpgVo7Q==",
+      });
+
+      var docClient = new AWS.DynamoDB.DocumentClient();
+
+      function readItem() {
+          var table = "Medicine";
+          var id = "1";
+
+          var params = {
+              TableName: table,
+              Key:{
+                  "PatientID": id
+              }
+          };
+          docClient.get(params, function(err, data) {
+            if (err) {
+              console.log("Unable to read item: " + "\n" + JSON.stringify(err, undefined, 2));
+            } else {
+              console.log("GetItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2));
+              console.log("\nRAW DATA:\n\n" + data);
+              console.log("\nRAW DATATYPE:\n\n" + typeof(data));
+            }
+          });          
+      }
+    </script>
   </head>
   <body>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

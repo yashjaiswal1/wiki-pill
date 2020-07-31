@@ -1,0 +1,39 @@
+{
+  "actions": [
+    {
+      "collect": {
+        "name": "collect_clothes_order",
+        "questions": [
+          {
+            "question": "Can I ask a few questions to help?",
+            "name": "first_name",
+            "type": "Twilio.YES_NO"
+          },
+          {
+            "question": "Since when have you been feeling this way?",
+            "name": "num_days",
+            "type": "Twilio.NUMBER"
+          },
+          {
+            "question": "Is it a physical uneasiness or something emotional?",
+            "name": "reason",
+            "type": "mental"
+          },
+          {
+            "question": "Okay, so would you like to talk to a therapist about this? Seeking professional help is normal. I can call a therapist for you if you wish.",
+            "name": "therapist",
+            "type": "Twilio.YES_NO"
+          },
+          {
+            "question": "Alright! I can also call one of your friends for you. Or, you can talk to me, I'm a friend too!",
+            "name": "friend",
+            "type": "Twilio.FIRST_NAME"
+          }
+        ],
+        "on_complete": {
+          "redirect": "https://91b8d45d05fb.ngrok.io/collect"
+        }
+      }
+    }
+  ]
+}
