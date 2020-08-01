@@ -15,12 +15,7 @@
             "type": "Twilio.NUMBER"
           },
           {
-            "question": "Is it a physical uneasiness or something emotional?",
-            "name": "reason",
-            "type": "mental"
-          },
-          {
-            "question": "Okay, so would you like to talk to a therapist about this? Seeking professional help is normal. I can call a therapist for you if you wish.",
+            "question": "I'm sorry to hear that. Would you like to talk to a therapist about this? Seeking professional help is normal. I can call a therapist for you if you wish.",
             "name": "therapist",
             "type": "Twilio.YES_NO"
           },
